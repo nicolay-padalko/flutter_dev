@@ -8,14 +8,18 @@ class HomeRepositoryImpl implements HomeRepository {
   Future<List<Map>> getTarefas() async {
     return (await tarefas.get())
         .docs
-        .map((e) => {"name": e.data['name']})
+        .map((e) => {
+              "name": e.data() ?? ['name']
+            })
         .toList();
   }
 
   @override
   Stream<List<Map>> streamTarefas() {
-    return tarefas
-        .snapshots()
-        .map((e) => e.docs.map((e) => {"name": e.data('name')}).toList());
+    return tarefas.snapshots().map((e) => e.docs
+        .map((e) => {
+              "name": e.data() ?? ['name']
+            })
+        .toList());
   }
 }
